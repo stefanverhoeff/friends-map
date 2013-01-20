@@ -3,24 +3,31 @@
 <head>
     <meta charset="utf-8" />
     <title>A map with friends</title>
+
+    <link rel="stylesheet" href="friends-map.css">
 </head>
 
 <body>
 
 <header>
-    A map with friends
+    <h1>A map with friends</h1>
+    <div id="controls">
+        <input id="fb-token" size="35">
+        <input id="limit" type="range" min="0" max="1000"> <span id="limit-value"></span>
+        <button id="go">go</button>
+    </div>
 </header>
 
-<input id="fb-token" size="35">
-<input id="limit" type="range" min="0" max="1000"> <span id="limit-value"></span>
-<button id="go">go</button>
-
-<section id="main">
-
+<section id="mapContainer">
 </section>
 
+<section id="friends">
+</section>
+
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>-->
+<!--<script src="http://jhere.net/js/jhere.js"></script>-->
 <script type="text/javascript" src="jquery-1.9.0.min.js"></script>
 <script type="text/javascript" src="jhere.js"></script>
-<script type="text/javascript" src="friends-map.js"></script>
+<script src="friends-map.js"></script>
 </body>
 </html>

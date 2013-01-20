@@ -11,7 +11,7 @@
             + '&access_token=' + fbToken
             + '&limit=' + limit;
 
-        $('#main').empty();
+        $('#friends').empty();
 
         $.ajax({
             url: fbRequestFriends,
@@ -23,9 +23,12 @@
                 var location = friend.location || friend.hometown;
 
                 if (location && location.name) {
-                    $("<img>").appendTo('#main')
+                    var profilePic = $("<img>")
                         .attr('src', friend.picture.data.url)
-                        .attr('title', friend.name + ' - ' + location.name);
+                        .attr('title', friend.name + ' - ' + location.name)
+                        .get();
+
+                    $('#friends').append(profilePic);
                 }
             });
         })
@@ -51,6 +54,14 @@
         localStorage.limit = limit;
     }
 
+    var loadMap = function() {
+        $('#mapContainer').jHERE({
+            enable: ['behavior'],
+            center: [40.664167, -3.838611],
+            zoom: 3
+        });
+    };
+
     $('#go').click(function () {
         loadPicturesDefaults();
     });
@@ -59,5 +70,8 @@
         $('#limit-value').text(this.value);
     });
 
-    loadPicturesDefaults();
+    $(window).on('load', function() {
+        loadMap();
+        loadPicturesDefaults();
+    });
 })();
