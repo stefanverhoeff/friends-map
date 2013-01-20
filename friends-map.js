@@ -28,7 +28,28 @@
                         .attr('title', friend.name + ' - ' + location.name)
                         .get();
 
+                    // Show list of friends below map
                     $('#friends').append(profilePic);
+
+                    // Lookup location lat/lng
+                    $.ajax({
+                            url: 'https://graph.facebook.com/' + location.id,
+                            dataType: 'jsonp'
+                        })
+                        .done(function (response) {
+                            $('#mapContainer').jHERE('marker',
+                                [response.location.latitude, response.location.longitude],
+                                    {
+                                        icon: friend.picture.data.url,
+                                        anchor: {x: 12, y: 32},
+                                        click:  function(){
+                                                    alert(friend.name + ' says Hallo from ' + response.name + '!');
+                                                }
+                                        });
+                        })
+                        .fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('Failed to lookup location', location, textStatus, errorThrown);
+                        });
                 }
             });
         })
@@ -58,7 +79,7 @@
         $('#mapContainer').jHERE({
             enable: ['behavior'],
             center: [40.664167, -3.838611],
-            zoom: 3
+            zoom: 2
         });
     };
 
