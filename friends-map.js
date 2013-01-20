@@ -7,7 +7,7 @@
     var loadPictures = function (fbToken, limit) {
         var fbRequestFriends =
             'https://graph.facebook.com/me/friends'
-            + '?fields=name,picture,location,address,hometown'
+            + '?fields=name,picture,location,hometown'
             + '&access_token=' + fbToken
             + '&limit=' + limit;
 
@@ -20,8 +20,13 @@
         .done(function (response) {
             console.log("You have " + response.data.length + " friends");
             response.data.forEach(function (friend) {
-                $("<img>").appendTo('#main')
-                .attr('src', friend.picture.data.url);
+                var location = friend.location || friend.hometown;
+
+                if (location && location.name) {
+                    $("<img>").appendTo('#main')
+                        .attr('src', friend.picture.data.url)
+                        .attr('title', friend.name + ' - ' + location.name);
+                }
             });
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
