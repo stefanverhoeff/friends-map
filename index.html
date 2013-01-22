@@ -8,12 +8,51 @@
 </head>
 
 <body>
+<div id="fb-root"></div>
+<script>
+    // Standard FB auth code here for now to ensure it works per example
+
+    // Additional JS functions here
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '395795750510788', // App ID
+            channelUrl : '//stefanverhoeff.github.com/friends-map/channel.html', // Channel File
+            status     : true, // check login status
+            cookie     : true, // enable cookies to allow the server to access the session
+            xfbml      : true  // parse XFBML
+        });
+
+        // Additional init code here
+        FB.getLoginStatus(function(response) {
+            console.log('login status', response);
+
+            if (response.status === 'connected') {
+                // connected
+            } else if (response.status === 'not_authorized') {
+                // not_authorized
+            } else {
+                // not_logged_in
+            }
+        });
+
+    };
+
+    // Load the SDK Asynchronously
+    (function(d){
+        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement('script'); js.id = id; js.async = true;
+        js.src = "http://connect.facebook.net/en_US/all.js";
+        ref.parentNode.insertBefore(js, ref);
+    }(document));
+</script>
 
 <header>
     <h1>A map with friends</h1>
     <div id="controls">
         <input id="fb-token" size="35">
         <button id="go">go</button>
+        <button id="login">login</button>
     </div>
 </header>
 

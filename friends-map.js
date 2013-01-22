@@ -78,6 +78,22 @@
 
     $('#go').click(function () {
         loadPicturesDefaults();
+
+        // Test FB api
+        FB.api('/me', function(response) {
+            console.log('Good to see you, ' + response.name + '.');
+        });
+    });
+
+    $('#login').click(function () {
+        FB.login(function(response) {
+            console.log('result of login', response);
+            if (response.authResponse) {
+                // connected
+            } else {
+                // cancelled
+            }
+        });
     });
 
     $(window).on('load', function() {
