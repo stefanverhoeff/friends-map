@@ -2,14 +2,12 @@
     "use strict";
 
     var fbToken;
-    var limit;
 
-    var loadPictures = function (fbToken, limit) {
+    var loadPictures = function (fbToken) {
         var fbRequestFriends =
             'https://graph.facebook.com/me/friends'
             + '?fields=name,picture,location,hometown'
-            + '&access_token=' + fbToken
-            + '&limit=' + limit;
+            + '&access_token=' + fbToken;
 
         $('#friends').empty();
 
@@ -61,18 +59,13 @@
     var loadPicturesDefaults = function () {
         updateValues();
 
-        loadPictures(fbToken, limit);
+        loadPictures(fbToken);
     };
 
     var updateValues = function () {
         fbToken = $('#fb-token').val() || localStorage.fbToken;
-        limit = $('#limit').val() || localStorage.limit || 15;
-
-        $('#limit').val(limit).change();
         $('#fb-token').val(fbToken);
-
         localStorage.fbToken = fbToken;
-        localStorage.limit = limit;
     }
 
     var loadMap = function() {
@@ -85,10 +78,6 @@
 
     $('#go').click(function () {
         loadPicturesDefaults();
-    });
-
-    $('#limit').change(function () {
-        $('#limit-value').text(this.value);
     });
 
     $(window).on('load', function() {
