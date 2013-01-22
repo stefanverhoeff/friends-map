@@ -16,3 +16,5 @@ Todo
 - Pie menu for friends living in same town
 - Get latest location from friends from checkins
 - Show mutual friend connections
+- FIX: seem to be missing some friends compared to http://geographics.cz/socialMap/
+- Heatmap layer of friend density
