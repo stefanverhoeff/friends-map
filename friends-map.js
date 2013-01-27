@@ -2,8 +2,14 @@
     "use strict";
 
     var fbToken;
+    var fbLoggedIn = false;
 
     var loadPictures = function (fbToken) {
+        if (! fbLoggedIn) {
+            console.log('Not logged in, can\'t show friends');
+            return;
+        }
+
         var fbRequestFriends =
             'https://graph.facebook.com/me/friends'
             + '?fields=name,picture,location,hometown'
@@ -68,7 +74,7 @@
         localStorage.fbToken = fbToken;
     }
 
-    var loadMap = function() {
+    var loadMap = function () {
         $('#mapContainer').jHERE({
             enable: ['behavior'],
             center: [40.664167, -3.838611],
@@ -76,28 +82,50 @@
         });
     };
 
-    $('#go').click(function () {
-        loadPicturesDefaults();
+    var fbLogin = function () {
+        // Check if logged in already
+        FB.getLoginStatus(function(response) {
+            console.log('login status', response);
 
+            if (response.status === 'connected') {
+                // connected
+                console.log('already logged in');
+                fbLoggedIn = true;
+            } else if (response.status === 'not_authorized') {
+                // not_authorized
+                console.log('user not authorized, requesting auth');
+
+                FB.login(function(response) {
+                    console.log('result of login', response);
+                    if (response.authResponse) {
+                        // connected
+                        fbLoggedIn = true;
+                    } else {
+                        // cancelled
+                    }
+                });
+            } else {
+                // not_logged_in
+                console.log('User not logged in. What to do?');
+            }
+        });
+    };
+
+    $('#go').click(function () {
         // Test FB api
         FB.api('/me', function(response) {
             console.log('Good to see you, ' + response.name + '.');
         });
+
+        loadPicturesDefaults();
     });
 
     $('#login').click(function () {
-        FB.login(function(response) {
-            console.log('result of login', response);
-            if (response.authResponse) {
-                // connected
-            } else {
-                // cancelled
-            }
-        });
+        fbLogin();
     });
 
     $(window).on('load', function() {
         loadMap();
-        loadPicturesDefaults();
+//        loadPicturesDefaults();
     });
 })();
