@@ -11,11 +11,16 @@
 <div id="fb-root"></div>
 <script>
     // Standard FB auth code here for now to ensure it works per example
+    var appId = location.href.indexOf('localhost') > -1
+                    // Localhost dev
+                        ? '277836995679034'
+                    // Production
+                        : '395795750510788';
 
     // Additional JS functions here
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '395795750510788', // App ID
+            appId      : appId, // App ID
             channelUrl : '//stefanverhoeff.github.com/friends-map/channel.html', // Channel File
             status     : true, // check login status
             cookie     : true, // enable cookies to allow the server to access the session
@@ -36,9 +41,7 @@
 <header>
     <h1>A map with friends</h1>
     <div id="controls">
-        <input id="fb-token" size="35">
-        <button id="go">go</button>
-        <button id="login">login</button>
+        <button id="go">locate my friends :-)</button>
     </div>
 </header>
 
