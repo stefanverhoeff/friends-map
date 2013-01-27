@@ -8,8 +8,11 @@ html,body, #mapContainer {
 }
 
 header {
+    position:absolute;
+    top:0;
     height:75px;
     margin:5px;
+    z-index:3;
 }
 
 header h1 {
@@ -23,9 +26,24 @@ header h1 {
 
 #mapContainer {
     width:100%;
-    height:450px;
+    height:100%;
+    z-index:1;
 }
 
 #friends {
+    position:absolute;
+    overflow:scroll;
+    top:0;
+    right:0;
+    width:175px;
+    height:100%;
+    z-index:2;
+    padding:0;
+    marging:0;
+}
 
+#friends img {
+    float:right;
+    padding:0;
+    margin:0;
 }

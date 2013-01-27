@@ -1,11 +1,17 @@
 (function() {
     "use strict";
 
+    var limit = 1000;
+
+    if (development) {
+//        limit = 25;
+    }
+
     var loadPictures = function () {
         var fbRequestFriends =
             '/me/friends'
             + '?fields=name,picture,location,hometown'
-            + '&limit=1000';
+            + '&limit=' + limit;
 
         $('#friends').empty();
 

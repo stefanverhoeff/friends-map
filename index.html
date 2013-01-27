@@ -11,11 +11,8 @@
 <div id="fb-root"></div>
 <script>
     // Standard FB auth code here for now to ensure it works per example
-    var appId = location.href.indexOf('localhost') > -1
-                    // Localhost dev
-                        ? '277836995679034'
-                    // Production
-                        : '395795750510788';
+    var development = location.href.indexOf('localhost') > -1,
+        appId = development ? '277836995679034' : '395795750510788';
 
     // Additional JS functions here
     window.fbAsyncInit = function() {
