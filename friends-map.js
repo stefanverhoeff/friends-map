@@ -1,19 +1,11 @@
 (function() {
     "use strict";
 
-    var fbToken;
-    var fbLoggedIn = false;
-
-    var loadPictures = function (fbToken) {
-        if (! fbLoggedIn) {
-            console.log('Not logged in, can\'t show friends');
-            return;
-        }
-
+    var loadPictures = function () {
         var fbRequestFriends =
             '/me/friends'
-            + '?fields=name,picture,location,hometown';
-//            + '&access_token=' + fbToken;
+            + '?fields=name,picture,location,hometown'
+            + '&limit=1000';
 
         $('#friends').empty();
 
@@ -59,16 +51,12 @@
     };
 
     var loadPicturesDefaults = function () {
-        updateValues();
+        loadPictures();
 
-        loadPictures(fbToken);
+        setTimeout(function () {
+            console.log('Got ' + $('#friends img').length + ' friends on the map');
+        }, 5000);
     };
-
-    var updateValues = function () {
-        fbToken = $('#fb-token').val() || localStorage.fbToken;
-        $('#fb-token').val(fbToken);
-        localStorage.fbToken = fbToken;
-    }
 
     var loadMap = function () {
         $('#mapContainer').jHERE({
@@ -78,13 +66,14 @@
         });
     };
 
-    var fbLogin = function () {
+    var fbLogin = function (successCallback) {
         // Check if logged in already
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                 // connected
                 console.log('logged in now');
                 fbLoggedIn = true;
+                successCallback && successCallback();
             } else if (response.status === 'not_authorized') {
                 // not_authorized
                 console.log('user not authorized, requesting auth');
@@ -95,6 +84,7 @@
                         // connected
                         console.log('user now authorized');
                         fbLoggedIn = true;
+                        successCallback && successCallback();
                     } else {
                         // cancelled
                         console.log('cancelled authorization');
@@ -108,16 +98,17 @@
     };
 
     $('#go').click(function () {
-        fbLogin();
-        loadPicturesDefaults();
-    });
-
-    $('#login').click(function () {
-        fbLogin();
+        fbLogin(loadPicturesDefaults);
     });
 
     $(window).on('load', function() {
         loadMap();
-//        loadPicturesDefaults();
+
+        // If already authorized, show map right away
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                loadPicturesDefaults();
+            }
+        });
     });
 })();
