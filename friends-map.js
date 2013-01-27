@@ -104,7 +104,9 @@
 
     $(window).on('load', function() {
         loadMap();
+    });
 
+    $(document).bind('fbInit',function(){
         // If already authorized, show map right away
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
