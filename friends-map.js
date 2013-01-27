@@ -81,11 +81,9 @@
     var fbLogin = function () {
         // Check if logged in already
         FB.getLoginStatus(function(response) {
-            console.log('login status', response);
-
             if (response.status === 'connected') {
                 // connected
-                console.log('already logged in');
+                console.log('logged in now');
                 fbLoggedIn = true;
             } else if (response.status === 'not_authorized') {
                 // not_authorized
@@ -95,11 +93,13 @@
                     console.log('result of login', response);
                     if (response.authResponse) {
                         // connected
+                        console.log('user now authorized');
                         fbLoggedIn = true;
                     } else {
                         // cancelled
+                        console.log('cancelled authorization');
                     }
-                });
+                }, {scope: 'friends_location,friends_hometown'});
             } else {
                 // not_logged_in
                 console.log('User not logged in. What to do?');
@@ -108,6 +108,7 @@
     };
 
     $('#go').click(function () {
+        fbLogin();
         loadPicturesDefaults();
     });
 
