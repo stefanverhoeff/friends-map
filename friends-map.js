@@ -67,7 +67,7 @@
     var loadMap = function () {
         $('#mapContainer').jHERE({
             enable: ['behavior'],
-            center: [40.664167, -3.838611],
+            center: [0, 0],
             zoom: 2
         });
     };
