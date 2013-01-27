@@ -22,3 +22,5 @@ Todo / ideas
 - ~Full screen map~
 - Fix race condition "FB.getLoginStatus() called before calling FB.init()."
 - Limit map moving and zooming to not out of screen
+- Show read friend count instead of waiting with timeout
+- Group friends list by continent/country/city. Lat/lng based?
