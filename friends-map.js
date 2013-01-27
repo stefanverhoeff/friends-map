@@ -73,9 +73,9 @@
                 // connected
                 console.log('logged in now');
                 successCallback && successCallback();
-            } else if (response.status === 'not_authorized') {
-                // not_authorized
-                console.log('user not authorized, requesting auth');
+            } else {
+                // not_logged_in or not_authorized
+                console.log('user not authorized or not logged in, requesting auth');
 
                 FB.login(function(response) {
                     console.log('result of login', response);
@@ -88,9 +88,6 @@
                         console.log('cancelled authorization');
                     }
                 }, {scope: 'friends_location,friends_hometown'});
-            } else {
-                // not_logged_in
-                console.log('User not logged in. What to do?');
             }
         });
     };
