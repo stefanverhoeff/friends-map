@@ -9,33 +9,6 @@
 
 <body>
 <div id="fb-root"></div>
-<script>
-    // Standard FB auth code here for now to ensure it works per example
-    var development = location.href.indexOf('localhost') > -1,
-        appId = development ? '277836995679034' : '395795750510788';
-
-    // Additional JS functions here
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : appId, // App ID
-            channelUrl : '//stefanverhoeff.github.com/friends-map/channel.html', // Channel File
-            status     : true, // check login status
-            cookie     : true, // enable cookies to allow the server to access the session
-            xfbml      : true  // parse XFBML
-        });
-
-        $(document).trigger('fbInit');
-    };
-
-    // Load the SDK Asynchronously
-    (function(d){
-        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement('script'); js.id = id; js.async = true;
-        js.src = "http://connect.facebook.net/en_US/all.js";
-        ref.parentNode.insertBefore(js, ref);
-    }(document));
-</script>
 
 <header>
     <h1>A map with friends</h1>
@@ -54,6 +27,33 @@
 <!--<script src="http://jhere.net/js/jhere.js"></script>-->
 <script type="text/javascript" src="jquery-1.9.0.min.js"></script>
 <script type="text/javascript" src="jhere.js"></script>
+<script>
+    // Standard FB auth code here for now to ensure it works per example
+    var development = location.href.indexOf('localhost') > -1,
+    appId = development ? '277836995679034' : '395795750510788';
+
+    // Additional JS functions here
+    window.fbAsyncInit = function() {
+    FB.init({
+    appId      : appId, // App ID
+    channelUrl : '//stefanverhoeff.github.com/friends-map/channel.html', // Channel File
+    status     : true, // check login status
+    cookie     : true, // enable cookies to allow the server to access the session
+    xfbml      : true  // parse XFBML
+    });
+
+    $(document).trigger('fbInit');
+    };
+
+    // Load the SDK Asynchronously
+    (function(d){
+    var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement('script'); js.id = id; js.async = true;
+    js.src = "http://connect.facebook.net/en_US/all.js";
+    ref.parentNode.insertBefore(js, ref);
+    }(document));
+</script>
 <script src="friends-map.js"></script>
 </body>
 </html>
