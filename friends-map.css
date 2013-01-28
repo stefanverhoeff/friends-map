@@ -10,6 +10,7 @@ html,body, #mapContainer {
 header {
     position:absolute;
     top:0;
+    left:20px;
     height:75px;
     margin:5px;
     z-index:3;
@@ -21,7 +22,11 @@ header h1 {
 
 #controls {
     float:left;
-    margin:30px;
+    margin:24px;
+}
+
+#controls button {
+    font-size:20px;
 }
 
 #mapContainer {
