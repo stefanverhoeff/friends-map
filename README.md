@@ -18,11 +18,13 @@ Todo / ideas
 - ~~Google Analytics to stalk users~~
 - Loading progress indicator
 - Bring user pic to front on hover, in case of overlap
-- Some map controls
+- ~~Some map controls~~
 - ~~Full screen map~~
 - ~~Fix race condition "FB.getLoginStatus() called before calling FB.init()."~~ Think I got it with custom event
 - Limit map moving and zooming to not out of screen
 - Show read friend count instead of waiting with timeout
 - Group friends list by continent/country/city. Lat/lng based?
-- Upgrade jHere
+- ~~Upgrade jHere~~
 - Performance optimize
+- Data structure
+- Unit tests..

@@ -66,7 +66,7 @@
 
     var loadMap = function () {
         $('#mapContainer').jHERE({
-            enable: ['behavior'],
+            enable: ['behavior', 'zoombar', 'scalebar', 'typeselector', 'positioning'],
             center: [0, 0],
             zoom: 2
         });

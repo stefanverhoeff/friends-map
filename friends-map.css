@@ -22,22 +22,24 @@ header h1 {
 
 #controls {
     float:left;
-    margin:24px;
+    margin:20px;
 }
 
 #controls button {
     font-size:20px;
+    padding:5px;
 }
 
 #mapContainer {
-    width:100%;
+    width:auto;
     height:100%;
     z-index:1;
+    padding-right:150px;
 }
 
 #friends {
     position:absolute;
-    overflow:scroll;
+    overflow-y:scroll;
     top:0;
     right:0;
     width:175px;
