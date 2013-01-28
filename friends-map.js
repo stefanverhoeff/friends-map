@@ -10,7 +10,7 @@
     var loadPictures = function () {
         var fbRequestFriends =
             '/me/friends'
-            + '?fields=name,picture,location,hometown'
+            + '?fields=name,username,picture,location,hometown'
             + '&limit=' + limit;
 
         $('#friends').empty();
@@ -41,15 +41,22 @@
                             return;
                         }
 
+                        var position = [response.location.latitude, response.location.longitude];
+
                         $('#mapContainer').jHERE('marker',
-                            [response.location.latitude, response.location.longitude],
-                                {
-                                    icon: friend.picture.data.url,
-                                    anchor: {x: 12, y: 32},
-                                    click:  function(){
-                                                alert(friend.name + ' says Hallo from ' + response.name + '!');
-                                            }
-                                    });
+                            position,
+                            {
+                                icon: friend.picture.data.url,
+                                anchor: {x: 12, y: 32},
+                                click: function() {
+                                    $('#mapContainer').jHERE('bubble',
+                                        position, {
+                                                   content: '<a href="https://www.facebook.com/' + friend.username + '" target="_blank">'+friend.name+'</a>' + ' says Hallo from ' + response.name,
+                                                   closable: true,
+                                                   onclose: function(){}
+                                                  })
+                                    }
+                            });
                         });
                 }
             });

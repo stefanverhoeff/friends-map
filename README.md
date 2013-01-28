@@ -8,7 +8,8 @@ http://stefanverhoeff.github.com/friends-map/
 
 Todo / ideas
 - ~~Login with Facebook so you don't need a manual API key~~
-- Bubble popup with info on friend
+- ~~Bubble popup with info on friend~~
+- Bubble popup with extended info on friend
 - Make friend list at bottom zoom in on click
 - Pie menu for friends living in same town
 - Get latest location from friends from checkins
@@ -28,3 +29,4 @@ Todo / ideas
 - Performance optimize
 - Data structure
 - Unit tests..
+- Make hello greeting in language for each country (cute!)
