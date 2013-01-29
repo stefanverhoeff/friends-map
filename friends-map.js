@@ -27,16 +27,6 @@
         });
     };
 
-    var loadFriendsLocation = function () {
-        friends.forEach(function (friend) {
-            var location = friend.location || friend.hometown;
-
-            if (location && location.name) {
-                lookupFriendLocation(friend, location);
-            }
-        });
-    };
-
     var lookupFriendLocation = function (friend, location) {
         // Lookup location lat/lng
         FB.api(location.id, function (response) {
@@ -84,13 +74,23 @@
 
     var loadPicturesDefaults = function () {
         loadFriends(function () {
-            console.log("You have " + friends.length + " friends");
-            loadFriendsLocation();
-        });
+            console.log("You have " + friends.length + " friends in total");
 
-        setTimeout(function () {
-            console.log('Got ' + $('#friends img').length + ' friends on the map');
-        }, 5000);
+            // Filter out friends who don't share their location or hometown
+            var hasLocation = function (friend) {
+                return friend.location || friend.hometown;
+            };
+
+            friends = friends.filter(hasLocation);
+
+            console.log("You have " + friends.length + " friends who share their location");
+
+            friends.forEach(function (friend) {
+                var location = friend.location || friend.hometown;
+
+                lookupFriendLocation(friend, location);
+            });
+        });
     };
 
     var loadMap = function () {
