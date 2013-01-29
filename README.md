@@ -30,3 +30,5 @@ Todo / ideas
 - Data structure
 - Unit tests..
 - Make hello greeting in language for each country (cute!)
+- Show line from hometown to current home
+- Have working on IE...
