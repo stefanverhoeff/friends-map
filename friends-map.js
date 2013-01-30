@@ -3,6 +3,7 @@
 
     var limit = 1000;
     var friends = [];
+    var map;
 
     if (development) {
         limit = 25;
@@ -45,13 +46,21 @@
     var showFriendOnMap = function (friend) {
         friend.profilePic = $("<img>")
             .attr('src', friend.picture.data.url)
-            .attr('title', friend.name + ' - ' + location.name)
+            .attr('title', friend.name + ' - ' + friend.location.name)
             .get();
 
         // Show list of friends on right hand side
-        $('#friends').append(friend.profilePic);
+        $('<a href="">')
+            .append(friend.profilePic)
+            .click(function (e) {
+                map.jHERE('center', friend.location.position);
+                map.jHERE('zoom', 12);
 
-        $('#mapContainer').jHERE('marker',
+                e.preventDefault();
+            })
+            .appendTo('#friends');
+
+        map.jHERE('marker',
             friend.location.position,
             {
                 icon: friend.picture.data.url,
@@ -63,7 +72,7 @@
     };
 
     var showFriendBubble = function (friend) {
-        $('#mapContainer').jHERE('bubble',
+        map.jHERE('bubble',
             friend.location.position,
             {
                 content: '<a href="https://www.facebook.com/' + friend.username + '" target="_blank">'+friend.name+'</a>' + ' says Hallo from ' + friend.location.name,
@@ -94,7 +103,9 @@
     };
 
     var loadMap = function () {
-        $('#mapContainer').jHERE({
+        map = $('#mapContainer');
+
+        map.jHERE({
             enable: ['behavior', 'zoombar', 'scalebar', 'typeselector', 'positioning'],
             center: [35, 0],
             zoom: 2
