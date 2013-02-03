@@ -41,5 +41,5 @@ Todo / ideas
 - ~~+ and - key bindings for zooming~~
 - implement zoomIn() and zoomOut() and pull request to jHere
 - Try Here API geocoder vs Facebook and compare. FB fails to geocode 'Velikiy Novgorod, Novgorodskaya Oblast'
-- Try to parellelize geocoding / friend lookup
+- Try to parallelize geocoding / friend lookup
   - Webworkers? Awesome!
