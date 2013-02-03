@@ -25,6 +25,7 @@ Todo / ideas
 - Limit map moving and zooming to not out of screen
 - Show read friend count instead of waiting with timeout
 - Group friends list by continent/country/city. Lat/lng based?
+  - Look into clustering in JSLA
 - ~~Upgrade jHere~~
 - Performance optimize
 - Data structure
@@ -37,4 +38,5 @@ Todo / ideas
 - Settings panel to pick:
   - Show hometown/location/both
   - Draw lines mutual friends
-- + and - key bindings
+- ~~+ and - key bindings for zooming~~
+- implement zoomIn() and zoomOut() and pull request to jHere

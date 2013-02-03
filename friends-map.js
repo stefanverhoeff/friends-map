@@ -117,6 +117,40 @@
             center: [35, 0],
             zoom: 2
         });
+
+        // Keyboard controls
+        $('body').keydown(function (e) {
+            switch (e.which) {
+                case 189: // minus
+                    // Zoom out
+                    map.jHERE('zoom', map.jHERE().zoom - 1);
+                    break;
+                case 187: // plus/equals (sits next to my minus, so convenient...)
+                    // Zoom in
+                    map.jHERE('zoom', map.jHERE().zoom + 1);
+                    break;
+                case 37: // left arrow
+                    map.jHERE('originalMap', function (map, here) {
+                        map.pan(0, 0, -100, 0);
+                    });
+                    break;
+                case 39: // right arrow
+                    map.jHERE('originalMap', function (map, here) {
+                        map.pan(0, 0, 100, 0);
+                    });
+                    break;
+                case 38: // up arrow
+                    map.jHERE('originalMap', function (map, here) {
+                        map.pan(0, 0, 0, -100);
+                    });
+                    break;
+                case 40: // down arrow
+                    map.jHERE('originalMap', function (map, here) {
+                        map.pan(0, 0, 0, 100);
+                    });
+                    break;
+            }
+        });
     };
 
     var fbLogin = function (successCallback) {
