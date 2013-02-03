@@ -32,3 +32,9 @@ Todo / ideas
 - Make hello greeting in language for each country (cute!)
 - Show line from hometown to current home
 - Have working on IE...
+- Use events to connect sequences of lookups
+- Deal with scrollbar in firefox / no-bar in Chrome
+- Settings panel to pick:
+  - Show hometown/location/both
+  - Draw lines mutual friends
+- + and - key bindings

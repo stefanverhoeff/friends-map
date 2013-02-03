@@ -1,13 +1,13 @@
 (function() {
     "use strict";
 
-    var limit = 1000;
+    var limit = 9001;
     var friends = [];
     var map;
 
-    if (development) {
-        limit = 25;
-    }
+//    if (development) {
+//        limit = 25;
+//    }
 
     var loadFriends = function (callback) {
         var fbRequestFriends =
@@ -81,13 +81,13 @@
             });
     };
 
-    var loadPicturesDefaults = function () {
+    var loadFriendsAndPictures = function () {
         loadFriends(function () {
             console.log("You have " + friends.length + " friends in total");
 
             // Filter out friends who don't share their location or hometown
             var hasLocation = function (friend) {
-                return friend.location || friend.hometown;
+                return (friend.location && friend.location.id) || (friend.hometown && friend.hometown.id);
             };
 
             friends = friends.filter(hasLocation);
@@ -96,6 +96,13 @@
 
             friends.forEach(function (friend) {
                 var location = friend.location || friend.hometown;
+
+                if (friend.location && friend.location.id) {
+                    location = friend.location;
+                }
+                else {
+                    location = friend.hometown;
+                }
 
                 lookupFriendLocation(friend, location);
             });
@@ -139,7 +146,7 @@
     };
 
     $('#go').click(function () {
-        fbLogin(loadPicturesDefaults);
+        fbLogin(loadFriendsAndPictures);
     });
 
     $(window).on('load', function() {
@@ -150,7 +157,7 @@
         // If already authorized, show map right away
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
-                loadPicturesDefaults();
+                loadFriendsAndPictures();
             }
         });
     });
