@@ -110,12 +110,27 @@
     };
 
     var loadMap = function () {
-        map = $('#mapContainer');
+        var mapDiv = $('#mapContainer');
+        map = mapDiv;
 
         map.jHERE({
             enable: ['behavior', 'zoombar', 'scalebar', 'typeselector', 'positioning'],
             center: [35, 0],
             zoom: 2
+        });
+
+        // Ensure map doesn't get outside area
+        map.jHERE('originalMap', function (map) {
+            var mapNode = mapDiv.get(0);
+
+            map.addObserver("center", function (obj, key, newValue, oldValue) {
+                if (map.pixelToGeo(0,0).latitude >= 90 && map.zoomLevel > 1) {
+                    map.pan(0, 0, 0, 1);
+                }
+                else if (map.pixelToGeo(0, mapNode.scrollHeight).latitude <= -90 && map.zoomLevel > 1) {
+                    map.pan(0, 0, 0, -1);
+                }
+            });
         });
 
         // Keyboard controls
