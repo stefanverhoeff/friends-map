@@ -34,7 +34,7 @@ header h1 {
     width:auto;
     height:100%;
     z-index:1;
-    padding-right:150px;
+    padding-right:165px;
 }
 
 #friends {
@@ -42,14 +42,31 @@ header h1 {
     overflow-y:scroll;
     top:0;
     right:0;
-    width:150px;
+    width:165px;
     height:100%;
     z-index:2;
     padding:0;
     marging:0;
+    line-height:0;
 }
 
-#friends img {
+#friends::-webkit-scrollbar {
+    width: 15px;
+}
+
+#friends::::-webkit-scrollbar-button {
+    background: #ccc
+}
+
+#friends::::-webkit-scrollbar-track-piece {
+    background: #888
+}
+
+#friends::::-webkit-scrollbar-thumb {
+    background: #eee
+}​
+
+#friends img, #friends a {
     float:right;
     padding:0;
     margin:0;
