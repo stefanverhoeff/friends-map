@@ -122,10 +122,12 @@
         $('body').keydown(function (e) {
             switch (e.which) {
                 case 189: // minus
+                case 173: // minus on Firefox (wtf?)
                     // Zoom out
                     map.jHERE('zoom', map.jHERE().zoom - 1);
                     break;
                 case 187: // plus/equals (sits next to my minus, so convenient...)
+                case 61: // plus/equals on Firefox
                     // Zoom in
                     map.jHERE('zoom', map.jHERE().zoom + 1);
                     break;
