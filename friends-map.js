@@ -31,8 +31,8 @@
     var lookupFriendLocation = function (friend, location) {
         // Lookup location lat/lng
         FB.api(location.id, function (response) {
-            if (response.error) {
-                console.log('Failed to lookup location', response.error);
+            if (response.error || ! response.location) {
+                console.log('Failed to lookup location', location, response.error);
                 return;
             }
 

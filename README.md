@@ -40,3 +40,6 @@ Todo / ideas
   - Draw lines mutual friends
 - ~~+ and - key bindings for zooming~~
 - implement zoomIn() and zoomOut() and pull request to jHere
+- Try Here API geocoder vs Facebook and compare. FB fails to geocode 'Velikiy Novgorod, Novgorodskaya Oblast'
+- Try to parellelize geocoding / friend lookup
+  - Webworkers? Awesome!
