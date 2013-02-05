@@ -49,3 +49,7 @@ Todo / ideas
   - FB authentication handling
   - FB friend list loading logic
   - Friends map logic
+- Or break into objects?
+  - Friend object with method to lookup location
+  - Facebook object
+  - Map object with friend displaying power
