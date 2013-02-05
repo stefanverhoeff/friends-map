@@ -26,6 +26,7 @@ Todo / ideas
 - Show read friend count instead of waiting with timeout
 - Group friends list by continent/country/city. Lat/lng based?
   - Look into clustering in JSLA
+  - Try random delta for positioning
 - ~~Upgrade jHere~~
 - Performance optimize
 - Data structure
@@ -39,7 +40,10 @@ Todo / ideas
   - Show hometown/location/both
   - Draw lines mutual friends
 - ~~+ and - key bindings for zooming~~
-- implement zoomIn() and zoomOut() and pull request to jHere
+- jHERE contribution ideas:
+  - implement zoomIn() and zoomOut()
+  - $.jHERE().originalMap returns the instance
+  - clustering support (now have hack to load JSLA using jsl.js?with=all)
 - Try Here API geocoder vs Facebook and compare. FB fails to geocode 'Velikiy Novgorod, Novgorodskaya Oblast'
 - Try to parallelize geocoding / friend lookup
   - Webworkers? Awesome!
