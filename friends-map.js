@@ -81,31 +81,37 @@
             });
     };
 
+    var filterFriendsWithLocation = function (friendList) {
+        console.log("You have " + friendList.length + " friends in total");
+
+        // Filter out friends who don't share their location or hometown
+        var hasLocation = function (friend) {
+            return (friend.location && friend.location.id) || (friend.hometown && friend.hometown.id);
+        };
+
+        friendList = friendList.filter(hasLocation);
+
+        console.log("You have " + friendList.length + " friends who share their location");
+
+        friendList.forEach(function (friend) {
+            var location = friend.location || friend.hometown;
+
+            if (friend.location && friend.location.id) {
+                location = friend.location;
+            }
+            else {
+                location = friend.hometown;
+            }
+
+            lookupFriendLocation(friend, location);
+        });
+
+        return friendList;
+    };
+
     var loadFriendsAndPictures = function () {
         loadFriends(function () {
-            console.log("You have " + friends.length + " friends in total");
-
-            // Filter out friends who don't share their location or hometown
-            var hasLocation = function (friend) {
-                return (friend.location && friend.location.id) || (friend.hometown && friend.hometown.id);
-            };
-
-            friends = friends.filter(hasLocation);
-
-            console.log("You have " + friends.length + " friends who share their location");
-
-            friends.forEach(function (friend) {
-                var location = friend.location || friend.hometown;
-
-                if (friend.location && friend.location.id) {
-                    location = friend.location;
-                }
-                else {
-                    location = friend.hometown;
-                }
-
-                lookupFriendLocation(friend, location);
-            });
+            friends = filterFriendsWithLocation(friends);
         });
     };
 
@@ -119,7 +125,7 @@
             zoom: 2
         });
 
-        // Ensure map doesn't get outside area
+        // Ensure map doesn't get outside area in north and south
         map.jHERE('originalMap', function (map) {
             var mapNode = mapDiv.get(0);
 
@@ -133,7 +139,7 @@
             });
         });
 
-        // Keyboard controls
+        // Keyboard controls for moving the map around
         $('body').keydown(function (e) {
             switch (e.which) {
                 case 189: // minus
