@@ -24,6 +24,8 @@
             }
 
             friends = response.data;
+
+            $(document).trigger('friendsLoaded');
             callback && callback();
         });
     };
@@ -39,6 +41,7 @@
             friend.location = response;
             friend.location.position = [response.location.latitude, response.location.longitude];
 
+            // TODO: don't call directly but use event?
             showFriendOnMap(friend);
         });
     };
@@ -84,7 +87,7 @@
     var filterFriendsWithLocation = function (friendList) {
         console.log("You have " + friendList.length + " friends in total");
 
-        // Filter out friends who don't share their location or hometown
+        // Filter out privacy conscious friends who don't share their location or hometown
         var hasLocation = function (friend) {
             return (friend.location && friend.location.id) || (friend.hometown && friend.hometown.id);
         };
@@ -103,16 +106,10 @@
                 location = friend.hometown;
             }
 
-            lookupFriendLocation(friend, location);
+            friend.lookupLocation = location;
         });
 
         return friendList;
-    };
-
-    var loadFriendsAndPictures = function () {
-        loadFriends(function () {
-            friends = filterFriendsWithLocation(friends);
-        });
     };
 
     var loadMap = function () {
@@ -202,20 +199,33 @@
         });
     };
 
+    var setupWiring = function () {
+        $(document).bind('fbInit', function() {
+            // If already authorized, show map right away
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    loadFriends();
+                }
+            });
+        });
+
+        $(document).bind('friendsLoaded', function() {
+            friends = filterFriendsWithLocation(friends);
+
+            friends.forEach(function (friend) {
+                lookupFriendLocation(friend, friend.lookupLocation);
+            });
+        });
+    };
+
     $('#go').click(function () {
-        fbLogin(loadFriendsAndPictures);
+        fbLogin(loadFriends);
     });
 
     $(window).on('load', function() {
         loadMap();
     });
 
-    $(document).bind('fbInit',function(){
-        // If already authorized, show map right away
-        FB.getLoginStatus(function(response) {
-            if (response.status === 'connected') {
-                loadFriendsAndPictures();
-            }
-        });
-    });
+    setupWiring();
+
 })();
