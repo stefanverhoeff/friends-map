@@ -12,7 +12,7 @@ Todo / ideas
 - Bubble popup with extended info on friend
 - Make friend list at bottom zoom in on click
 - Pie menu for friends living in same town
-- Get latest location from friends from checkins
+- Get latest location from friends from check-ins
 - Show mutual friend connections
 - ~~FIX: seem to be missing some friends compared to http://geographics.cz/socialMap/ ~~
 - Heatmap layer of friend density
@@ -34,7 +34,7 @@ Todo / ideas
 - Show line from hometown to current home
 - Have working on IE...
 - Use events to connect sequences of lookups
-- ~~Deal with scrollbar in firefox / no-bar in Chrome~~
+- ~~Deal with scroll-bar in firefox / no-bar in Chrome~~
 - Settings panel to pick:
   - Show hometown/location/both
   - Draw lines mutual friends
@@ -43,3 +43,9 @@ Todo / ideas
 - Try Here API geocoder vs Facebook and compare. FB fails to geocode 'Velikiy Novgorod, Novgorodskaya Oblast'
 - Try to parallelize geocoding / friend lookup
   - Webworkers? Awesome!
+- Bring profile pic to front on map when clicked on in friends list whe multiple profile pics are overlaid
+- Split into modules:
+  - map handling
+  - FB authentication handling
+  - FB friend list loading logic
+  - Friends map logic
