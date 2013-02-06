@@ -2,8 +2,9 @@
     "use strict";
 
     var limit = 9001;
-    var friends = [];
     var map;
+    var clusterProvider;
+    var showClustering = window.location.href.indexOf('?cluster') > -1;
 
 //    if (development) {
 //        limit = 25;
@@ -23,9 +24,7 @@
                 return;
             }
 
-            friends = response.data;
-
-            $(document).trigger('friendsLoaded');
+            $(document).trigger('friendsLoaded', response);
             callback && callback();
         });
     };
@@ -63,15 +62,22 @@
             })
             .appendTo('#friends');
 
-        map.jHERE('marker',
-            friend.location.position,
-            {
-                icon: friend.picture.data.url,
-                anchor: {x: 12, y: 32},
-                click: function() {
-                    showFriendBubble(friend);
-                }
-            });
+        if (! showClustering) {
+            map.jHERE('marker',
+                friend.location.position,
+                {
+                    icon: friend.picture.data.url,
+                    anchor: {x: 12, y: 32},
+                    click: function() {
+                        showFriendBubble(friend);
+                    }
+                });
+        }
+        else {
+            clusterProvider.add(friend.location.location);
+        }
+
+        $(document).trigger('friendOnMap', friend);
     };
 
     var showFriendBubble = function (friend) {
@@ -122,16 +128,28 @@
             zoom: 2
         });
 
+        // Init clustering for friends living close together
+        if (showClustering) {
+            map.jHERE('originalMap', function (jslaMap) {
+                clusterProvider = new nokia.maps.clustering.ClusterProvider(
+                    jslaMap, {
+                            eps: 16,
+                            minPts: 1,
+                            dataPoints: []
+                        });
+            });
+        }
+
         // Ensure map doesn't get outside area in north and south
-        map.jHERE('originalMap', function (map) {
+        map.jHERE('originalMap', function (jslaMap) {
             var mapNode = mapDiv.get(0);
 
-            map.addObserver("center", function (obj, key, newValue, oldValue) {
-                if (map.pixelToGeo(0,0).latitude >= 90 && map.zoomLevel > 1) {
-                    map.pan(0, 0, 0, 1);
+            jslaMap.addObserver("center", function (obj, key, newValue, oldValue) {
+                if (jslaMap.pixelToGeo(0,0).latitude >= 90 && jslaMap.zoomLevel > 1) {
+                    jslaMap.pan(0, 0, 0, 1);
                 }
-                else if (map.pixelToGeo(0, mapNode.scrollHeight).latitude <= -90 && map.zoomLevel > 1) {
-                    map.pan(0, 0, 0, -1);
+                else if (jslaMap.pixelToGeo(0, mapNode.scrollHeight).latitude <= -90 && jslaMap.zoomLevel > 1) {
+                    jslaMap.pan(0, 0, 0, -1);
                 }
             });
         });
@@ -200,7 +218,9 @@
     };
 
     var setupWiring = function () {
-        $(document).bind('fbInit', function() {
+        var totalFriendCount;
+
+        $(document).on('fbInit', function () {
             // If already authorized, show map right away
             FB.getLoginStatus(function(response) {
                 if (response.status === 'connected') {
@@ -209,13 +229,28 @@
             });
         });
 
-        $(document).bind('friendsLoaded', function() {
-            friends = filterFriendsWithLocation(friends);
+        $(document).on('friendsLoaded', function (event, friendsResponse) {
+            var friends = filterFriendsWithLocation(friendsResponse.data);
+            totalFriendCount = friends.length;
 
             friends.forEach(function (friend) {
                 lookupFriendLocation(friend, friend.lookupLocation);
             });
         });
+
+        if (showClustering) {
+            var friendCount = 0;
+            $(document).on('friendOnMap', function (event, friend) {
+                friendCount++;
+                if (friendCount === totalFriendCount) {
+                    // Last friend is shown, start clustering
+                    clusterProvider.cluster();
+                }
+            });
+
+            // TODO: timeout to call clustering anyway in case there is a lookup failure
+            // TODO: handle any lookup failure and increase friend lookup count
+        }
     };
 
     $('#go').click(function () {
