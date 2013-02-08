@@ -81,10 +81,19 @@
     };
 
     var showFriendBubble = function (friend) {
+        var greeting;
+
+        if (friend.lookupType === 'location') {
+            greeting = 'lives in ' + friend.location.name;
+        }
+        else {
+            greeting = 'grew up in ' + friend.location.name;
+        }
+
         map.jHERE('bubble',
             friend.location.position,
             {
-                content: '<a href="https://www.facebook.com/' + friend.username + '" target="_blank">'+friend.name+'</a>' + ' says Hallo from ' + friend.location.name,
+                content: '<a href="https://www.facebook.com/' + friend.username + '" target="_blank">'+friend.name+'</a> ' + greeting,
                 closable: true,
                 onclose: function() {}
             });
@@ -106,9 +115,11 @@
             var location = friend.location || friend.hometown;
 
             if (friend.location && friend.location.id) {
+                friend.lookupType = 'location';
                 location = friend.location;
             }
             else {
+                friend.lookupType = 'hometown';
                 location = friend.hometown;
             }
 
