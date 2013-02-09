@@ -5,6 +5,7 @@
     var map;
     var clusterProvider;
     var showClustering = window.location.href.indexOf('?cluster') > -1;
+    var friendsInLocation;
 
 //    if (development) {
 //        limit = 25;
@@ -17,6 +18,7 @@
             + '&limit=' + limit;
 
         $('#friends').empty();
+        friendsInLocation = {};
 
         FB.api(fbRequestFriends, function(response) {
             if (response.error) {
@@ -45,6 +47,24 @@
         });
     };
 
+    // Calculate position distanced from given. See:
+    // http://www.movable-type.co.uk/scripts/latlong.html#destPoint
+    var distanceFromPosition = function (position, distance, bearing) {
+        var lat1 = position[0],
+            lon1 = position[1],
+            // Earth radius in km
+            R = 6371,
+            d = distance,
+            brng = bearing;
+
+        var lat2 = Math.asin( Math.sin(lat1)*Math.cos(d/R) +
+                      Math.cos(lat1)*Math.sin(d/R)*Math.cos(brng) );
+        var lon2 = lon1 + Math.atan2(Math.sin(brng)*Math.sin(d/R)*Math.cos(lat1),
+                             Math.cos(d/R)-Math.sin(lat1)*Math.sin(lat2));
+
+        return [lat2, lon2];
+    };
+
     var showFriendOnMap = function (friend) {
         friend.profilePic = $("<img>")
             .attr('src', friend.picture.data.url)
@@ -63,15 +83,30 @@
             .appendTo('#friends');
 
         if (! showClustering) {
+            // In case of multiple people in the same city,
+            // Show them around the location
+            var position = friend.location.position,
+                friendsInTown = friendsInLocation[friend.location.id];
+
+            if (friendsInTown > 1) {
+                position[0] += 0.05 * Math.cos(friend.number*(Math.PI*2/friendsInTown));
+                position[1] += 0.05 * Math.sin(friend.number*(Math.PI*2/friendsInTown));
+                console.log(friend.number, friend.location.name, friendsInTown, Math.sin(Math.PI*2/friendsInTown), Math.cos(Math.PI*2/friendsInTown));
+//                position = distanceFromPosition(position, 2, );
+//                friendsInLocation[friend.location.id]--;
+            }
+
             map.jHERE('marker',
-                friend.location.position,
+                position,
                 {
                     icon: friend.picture.data.url,
-                    anchor: {x: 12, y: 32},
+                    anchor: {x: 25, y: 25},
                     click: function() {
                         showFriendBubble(friend);
                     }
                 });
+
+            // TODO: draw line from city center to friend
         }
         else {
             clusterProvider.add(friend.location.location);
@@ -124,6 +159,14 @@
             }
 
             friend.lookupLocation = location;
+            if (friendsInLocation[location.id]) {
+                friendsInLocation[location.id]++;
+            }
+            else {
+                friendsInLocation[location.id] = 1;
+            }
+
+            friend.number = friendsInLocation[location.id];
         });
 
         return friendList;
