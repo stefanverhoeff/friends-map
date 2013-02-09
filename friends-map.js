@@ -50,19 +50,27 @@
     // Calculate position distanced from given. See:
     // http://www.movable-type.co.uk/scripts/latlong.html#destPoint
     var distanceFromPosition = function (position, distance, bearing) {
-        var lat1 = position[0],
-            lon1 = position[1],
+        var lat1 = toRad(position[0]),
+            lon1 = toRad(position[1]),
             // Earth radius in km
             R = 6371,
             d = distance,
             brng = bearing;
 
         var lat2 = Math.asin( Math.sin(lat1)*Math.cos(d/R) +
-                      Math.cos(lat1)*Math.sin(d/R)*Math.cos(brng) );
+                              Math.cos(lat1)*Math.sin(d/R)*Math.cos(brng) );
         var lon2 = lon1 + Math.atan2(Math.sin(brng)*Math.sin(d/R)*Math.cos(lat1),
-                             Math.cos(d/R)-Math.sin(lat1)*Math.sin(lat2));
+                                     Math.cos(d/R)-Math.sin(lat1)*Math.sin(lat2));
 
-        return [lat2, lon2];
+        return [toDeg(lat2), toDeg(lon2)];
+    };
+
+    var toRad = function(number) {
+        return number * Math.PI / 180;
+    };
+
+    var toDeg = function(number) {
+        return number * 180 / Math.PI;
     };
 
     var showFriendOnMap = function (friend) {
@@ -89,12 +97,15 @@
                 friendsInTown = friendsInLocation[friend.location.id];
 
             if (friendsInTown > 1) {
-                position[0] += 0.05 * Math.cos(friend.number*(Math.PI*2/friendsInTown));
-                position[1] += 0.05 * Math.sin(friend.number*(Math.PI*2/friendsInTown));
-                console.log(friend.number, friend.location.name, friendsInTown, Math.sin(Math.PI*2/friendsInTown), Math.cos(Math.PI*2/friendsInTown));
-//                position = distanceFromPosition(position, 2, );
-//                friendsInLocation[friend.location.id]--;
+                // Spread friends around in a circle if there
+                // are multiple of them in the same town
+                var circleAngle = friend.number * (Math.PI*2/friendsInTown),
+                    // Radius of the circle relative to the number of friends
+                    circleRadius = friendsInTown / 5;
+                position = distanceFromPosition(position, circleRadius, circleAngle);
             }
+
+            friend.location.position = position;
 
             map.jHERE('marker',
                 position,

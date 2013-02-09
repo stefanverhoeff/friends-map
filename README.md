@@ -10,11 +10,14 @@ Todo / ideas
 - ~~Login with Facebook so you don't need a manual API key~~
 - ~~Bubble popup with info on friend~~
 - Bubble popup with extended info on friend
-- Make friend list at bottom zoom in on click
+- ~~Make friend list at bottom zoom in on click~~
 - Pie menu for friends living in same town
+  - Show friends in circle around town
+  - Show line to town center
+  - Animate circle, expand on mouseover
 - Get latest location from friends from check-ins
 - Show mutual friend connections
-- ~~FIX: seem to be missing some friends compared to http://geographics.cz/socialMap/ ~~
+- ~~FIX: seem to be missing some friends compared to http://geographics.cz/socialMap/~~
 - Heatmap layer of friend density
 - ~~Google Analytics to stalk users~~
 - Loading progress indicator
@@ -57,3 +60,4 @@ Todo / ideas
   - Friend object with method to lookup location
   - Facebook object
   - Map object with friend displaying power
+- Location+zoomLevel in the URL, so on reload you still have the same map
