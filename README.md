@@ -27,7 +27,7 @@ Todo / ideas
 - ~~Fix race condition "FB.getLoginStatus() called before calling FB.init()."~~ Think I got it with custom event
 - Limit map moving and zooming to not out of screen
 - Show read friend count instead of waiting with timeout
-- Group friends list by continent/country/city. Lat/lng based?
+- Group and sort friends list by continent/country/city. Lat/lng based?
   - Look into clustering in JSLA
   - Try random delta for positioning
 - ~~Upgrade jHere~~
@@ -61,3 +61,13 @@ Todo / ideas
   - Facebook object
   - Map object with friend displaying power
 - Location+zoomLevel in the URL, so on reload you still have the same map
+- Promotion ideas:
+  - Nice design
+  - Facebook Like and Share buttons
+  - Feedback submission
+- Get some A/B tests working:
+  - Clustering vs Not clustering
+- Optimize:
+  - Cache city lookups
+    - ~Only call once~
+    - Even cache in localstorage for ultraspeed?

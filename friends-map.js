@@ -6,6 +6,7 @@
     var clusterProvider;
     var showClustering = window.location.href.indexOf('?cluster') > -1;
     var friendsInLocation;
+    var locations = {};
 
 //    if (development) {
 //        limit = 25;
@@ -32,6 +33,32 @@
     };
 
     var lookupFriendLocation = function (friend, location) {
+        if (locations[location.id]) {
+            if (locations[location.id].resolved) {
+                // Location has already been looked up
+                friend.location = locations[location.id];
+                $(document).trigger('friendLocated', friend);
+            }
+            else {
+                // Location lookup request waiting to finish
+                $(document).on('locationResolved', function (event, locationFound) {
+                    if (locationFound.id === location.id) {
+                        // Need to make a deep copy of the location,
+                        // because it will be modified for each friend to avoid
+                        // overlap
+                        var locationCopy = $.extend(true, {}, locationFound);
+
+                        friend.location = locationCopy;
+                        $(document).trigger('friendLocated', friend);
+                    }
+                });
+            }
+
+            return;
+        }
+
+        locations[location.id] = {resolved: false};
+
         // Lookup location lat/lng
         FB.api(location.id, function (response) {
             if (response.error || ! response.location) {
@@ -39,15 +66,19 @@
                 return;
             }
 
-            friend.location = response;
-            friend.location.position = [response.location.latitude, response.location.longitude];
+            var responseLocation = $.extend(true, {}, response);
+            responseLocation.position = [responseLocation.location.latitude, responseLocation.location.longitude];
+            responseLocation.resolved = true;
 
-            // TODO: don't call directly but use event?
-            showFriendOnMap(friend);
+            friend.location = $.extend(true, {}, responseLocation);
+            locations[location.id] = responseLocation;
+
+            $(document).trigger('friendLocated', friend);
+            $(document).trigger('locationResolved', responseLocation);
         });
     };
 
-    // Calculate position distanced from given. See:
+    // Calculate position at a distance from a given position and a angle. See:
     // http://www.movable-type.co.uk/scripts/latlong.html#destPoint
     var distanceFromPosition = function (position, distance, bearing) {
         var lat1 = toRad(position[0]),
@@ -301,6 +332,10 @@
             friends.forEach(function (friend) {
                 lookupFriendLocation(friend, friend.lookupLocation);
             });
+        });
+
+        $(document).on('friendLocated', function (event, friend) {
+            showFriendOnMap(friend);
         });
 
         if (showClustering) {
