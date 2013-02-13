@@ -6,7 +6,7 @@
     var clusterProvider;
     var showClustering = window.location.href.indexOf('?cluster') > -1;
     var friendsInLocation;
-    var locations = {};
+    var locations = localStorage.locations && JSON.parse(localStorage.locations) || {};
 
 //    if (development) {
 //        limit = 25;
@@ -36,7 +36,7 @@
         if (locations[location.id]) {
             if (locations[location.id].resolved) {
                 // Location has already been looked up
-                friend.location = locations[location.id];
+                friend.location = $.extend(true, {}, locations[location.id]);
                 $(document).trigger('friendLocated', friend);
             }
             else {
@@ -60,7 +60,8 @@
         locations[location.id] = {resolved: false};
 
         // Lookup location lat/lng
-        FB.api(location.id, function (response) {
+        var locationFields = 'id,name,location';
+        FB.api(location.id + '?fields=' + locationFields, function (response) {
             if (response.error || ! response.location) {
                 console.log('Failed to lookup location', location, response.error);
                 return;
@@ -340,19 +341,30 @@
             showFriendOnMap(friend);
         });
 
-        if (showClustering) {
-            var friendCount = 0;
-            $(document).on('friendOnMap', function (event, friend) {
-                friendCount++;
-                if (friendCount === totalFriendCount) {
-                    // Last friend is shown, start clustering
-                    clusterProvider.cluster();
-                }
-            });
+        // Create event for all friends loaded,
+        // by counting the incoming ones
+        var friendCount = 0;
+        $(document).on('friendOnMap', function (event, friend) {
+            friendCount++;
+            if (friendCount === totalFriendCount) {
+                $(document).trigger('allFriendsOnMap');
+            }
 
-            // TODO: timeout to call clustering anyway in case there is a lookup failure
+            // TODO: timeout to trigger event anyway, in case of failure
             // TODO: handle any lookup failure and increase friend lookup count
+        });
+
+        if (showClustering) {
+            $(document).on('allFriendsOnMap', function (event) {
+                // Last friend is shown, start clustering
+                clusterProvider.cluster();
+            });
         }
+
+        $(document).on('allFriendsOnMap', function (event) {
+            // Cache looked up locations
+            localStorage.locations = JSON.stringify(locations);
+        });
     };
 
     $('#go').click(function () {

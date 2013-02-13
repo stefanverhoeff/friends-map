@@ -12,7 +12,8 @@ Todo / ideas
 - Bubble popup with extended info on friend
 - ~~Make friend list at bottom zoom in on click~~
 - Pie menu for friends living in same town
-  - Show friends in circle around town
+  - ~Show friends in circle around town~
+  - ~Spread randomly in circle for more natural feel~
   - Show line to town center
   - Animate circle, expand on mouseover
 - Get latest location from friends from check-ins
@@ -68,6 +69,6 @@ Todo / ideas
 - Get some A/B tests working:
   - Clustering vs Not clustering
 - Optimize:
-  - Cache city lookups
+  - ~Cache city lookups~
     - ~Only call once~
-    - Even cache in localstorage for ultraspeed?
+    - ~Even cache in localstorage for ultraspeed?~
