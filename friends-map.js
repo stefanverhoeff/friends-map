@@ -89,10 +89,10 @@
             d = distance,
             brng = bearing;
 
-        var lat2 = Math.asin( Math.sin(lat1)*Math.cos(d/R) +
-                              Math.cos(lat1)*Math.sin(d/R)*Math.cos(brng) );
-        var lon2 = lon1 + Math.atan2(Math.sin(brng)*Math.sin(d/R)*Math.cos(lat1),
-                                     Math.cos(d/R)-Math.sin(lat1)*Math.sin(lat2));
+        var lat2 = Math.asin( Math.sin(lat1) * Math.cos(d/R) +
+                              Math.cos(lat1) * Math.sin(d/R) * Math.cos(brng) );
+        var lon2 = lon1 + Math.atan2( Math.sin(brng) * Math.sin(d/R) * Math.cos(lat1),
+                                      Math.cos(d/R) - Math.sin(lat1) * Math.sin(lat2) );
 
         return [toDeg(lat2), toDeg(lon2)];
     };
