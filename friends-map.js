@@ -132,8 +132,10 @@
                 // are multiple of them in the same town
                 var circleAngle = friend.number * (Math.PI*2/friendsInTown),
                     // Radius of the circle relative to the number of friends
-                    circleRadius = friendsInTown / 5;
-                position = distanceFromPosition(position, circleRadius, circleAngle);
+                    distanceCircle = friendsInTown / 5,
+                    distanceRandom = distanceCircle * Math.random(),
+                    distanceSpiral = distanceCircle/friendsInTown * friend.number;
+                position = distanceFromPosition(position, distanceRandom, circleAngle);
             }
 
             friend.location.position = position;
