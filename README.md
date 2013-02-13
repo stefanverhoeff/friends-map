@@ -33,8 +33,6 @@ Todo / ideas
   - Try random delta for positioning
 - ~~Upgrade jHere~~
 - Performance optimize
-- Data structure
-- Unit tests..
 - Make hello greeting in language for each country (cute!)
 - Show line from hometown to current home
 - Have working on IE...
@@ -44,14 +42,26 @@ Todo / ideas
   - Show hometown/location/both
   - Draw lines mutual friends
 - ~~+ and - key bindings for zooming~~
-- jHERE contribution ideas:
-  - implement zoomIn() and zoomOut()
-  - $.jHERE().originalMap returns the instance
-  - clustering support (now have hack to load JSLA using jsl.js?with=all)
 - Try Here API geocoder vs Facebook and compare. FB fails to geocode 'Velikiy Novgorod, Novgorodskaya Oblast'
 - Try to parallelize geocoding / friend lookup
   - Webworkers? Awesome!
 - Bring profile pic to front on map when clicked on in friends list whe multiple profile pics are overlaid
+- Location+zoomLevel in the URL, so on reload you still have the same map
+- Get some A/B tests working:
+  - Clustering vs Not clustering
+- Optimize:
+  - ~Cache city lookups~
+    - ~Only call once~
+    - ~Even cache in localstorage for ultraspeed?~
+
+Promotion ideas:
+- Nice design
+- Facebook Like and Share buttons
+- Feedback submission
+
+Architecture:
+- Data structure
+- Unit tests..
 - Split into modules:
   - map handling
   - FB authentication handling
@@ -61,14 +71,8 @@ Todo / ideas
   - Friend object with method to lookup location
   - Facebook object
   - Map object with friend displaying power
-- Location+zoomLevel in the URL, so on reload you still have the same map
-- Promotion ideas:
-  - Nice design
-  - Facebook Like and Share buttons
-  - Feedback submission
-- Get some A/B tests working:
-  - Clustering vs Not clustering
-- Optimize:
-  - ~Cache city lookups~
-    - ~Only call once~
-    - ~Even cache in localstorage for ultraspeed?~
+
+jHERE contribution ideas:
+- implement zoomIn() and zoomOut()
+- $.jHERE().originalMap returns the instance
+- clustering support as plugin (now have hack to load JSLA using jsl.js?with=all)
