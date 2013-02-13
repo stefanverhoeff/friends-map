@@ -54,16 +54,12 @@ header h1 {
     width: 15px;
 }
 
-#friends::::-webkit-scrollbar-button {
-    background: #ccc
+#friends::-webkit-scrollbar-track-piece {
+    background: #888;
 }
 
-#friends::::-webkit-scrollbar-track-piece {
-    background: #888
-}
-
-#friends::::-webkit-scrollbar-thumb {
-    background: #eee
+#friends::-webkit-scrollbar-thumb {
+    background: #eee;
 }​
 
 #friends img, #friends a {
