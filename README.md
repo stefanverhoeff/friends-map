@@ -32,11 +32,12 @@ http://stefanverhoeff.github.com/friends-map/
   - Different algorythms for displaying groups
 
 ### Bugs
-- First click on side bar is in the ocean
+- First click on friend in side bar shows in the ocean
 
 ### Promotion ideas
 - Nice design
 - Facebook Like and Share buttons
+- Authentic Facebook login button
 - Opengraph meta tags
 - SEO
   - Title with keywords: friend, map, etc
@@ -63,12 +64,12 @@ http://stefanverhoeff.github.com/friends-map/
 - Try Here API geocoder vs Facebook and compare. FB fails to geocode 'Velikiy Novgorod, Novgorodskaya Oblast'
 
 ### jHERE contribution ideas
-- Embed as sub-module
+- ~~Embed as sub-module~~
 - implement zoomIn() and zoomOut()
 - $.jHERE().originalMap returns the instance
 - clustering support as plugin (now have hack to load JSLA using jsl.js?with=all)
 
-Done tasks:
+### Done tasks
 - ~~Login with Facebook so you don't need a manual API key~~
 - ~~Bubble popup with info on friend~~
 - ~~Make friend list at bottom zoom in on click~~
