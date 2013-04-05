@@ -4,7 +4,7 @@ friends-map
 Map of Facebook friends using jHere.
 
 Running version:
-http://stefanverhoeff.github.com/friends-map/
+http://stefanverhoeff.github.io/friends-map/
 
 ### Feature ideas
 - Pie menu for friends living in same town
