@@ -85,14 +85,12 @@
         var lat1 = toRad(position[0]),
             lon1 = toRad(position[1]),
         // Earth radius in km
-            R = 6371,
-            d = distance,
-            brng = bearing;
+            R = 6371;
 
-        var lat2 = Math.asin(Math.sin(lat1) * Math.cos(d / R) +
-            Math.cos(lat1) * Math.sin(d / R) * Math.cos(brng));
-        var lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(d / R) * Math.cos(lat1),
-            Math.cos(d / R) - Math.sin(lat1) * Math.sin(lat2));
+        var lat2 = Math.asin(Math.sin(lat1) * Math.cos(distance / R) +
+            Math.cos(lat1) * Math.sin(distance / R) * Math.cos(bearing));
+        var lon2 = lon1 + Math.atan2(Math.sin(bearing) * Math.sin(distance / R) * Math.cos(lat1),
+            Math.cos(distance / R) - Math.sin(lat1) * Math.sin(lat2));
 
         return [toDeg(lat2), toDeg(lon2)];
     };
@@ -262,7 +260,7 @@
                     // Zoom out
                     map.jHERE('zoom', map.jHERE().zoom - 1);
                     break;
-                case 187: // plus/equals (sits next to my minus, so convenient...)
+                case 187: // plus/equals (sits next to my minus, so convenient)
                 case 61: // plus/equals on Firefox
                     // Zoom in
                     map.jHERE('zoom', map.jHERE().zoom + 1);
