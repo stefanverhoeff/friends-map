@@ -1,4 +1,4 @@
-(function() {
+(function () {
     "use strict";
 
     var limit = 9001;
@@ -15,13 +15,13 @@
     var loadFriends = function (callback) {
         var fbRequestFriends =
             '/me/friends'
-            + '?fields=name,username,picture,location,hometown'
-            + '&limit=' + limit;
+                + '?fields=name,username,picture,location,hometown'
+                + '&limit=' + limit;
 
         $('#friends').empty();
         friendsInLocation = {};
 
-        FB.api(fbRequestFriends, function(response) {
+        FB.api(fbRequestFriends, function (response) {
             if (response.error) {
                 console.log('Failed finding friends', response.error);
                 return;
@@ -62,7 +62,7 @@
         // Lookup location lat/lng
         var locationFields = 'id,name,location';
         FB.api(location.id + '?fields=' + locationFields, function (response) {
-            if (response.error || ! response.location) {
+            if (response.error || !response.location) {
                 console.log('Failed to lookup location', location, response.error);
                 return;
             }
@@ -84,24 +84,24 @@
     var distanceFromPosition = function (position, distance, bearing) {
         var lat1 = toRad(position[0]),
             lon1 = toRad(position[1]),
-            // Earth radius in km
+        // Earth radius in km
             R = 6371,
             d = distance,
             brng = bearing;
 
-        var lat2 = Math.asin( Math.sin(lat1) * Math.cos(d/R) +
-                              Math.cos(lat1) * Math.sin(d/R) * Math.cos(brng) );
-        var lon2 = lon1 + Math.atan2( Math.sin(brng) * Math.sin(d/R) * Math.cos(lat1),
-                                      Math.cos(d/R) - Math.sin(lat1) * Math.sin(lat2) );
+        var lat2 = Math.asin(Math.sin(lat1) * Math.cos(d / R) +
+            Math.cos(lat1) * Math.sin(d / R) * Math.cos(brng));
+        var lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(d / R) * Math.cos(lat1),
+            Math.cos(d / R) - Math.sin(lat1) * Math.sin(lat2));
 
         return [toDeg(lat2), toDeg(lon2)];
     };
 
-    var toRad = function(number) {
+    var toRad = function (number) {
         return number * Math.PI / 180;
     };
 
-    var toDeg = function(number) {
+    var toDeg = function (number) {
         return number * 180 / Math.PI;
     };
 
@@ -122,7 +122,7 @@
             })
             .appendTo('#friends');
 
-        if (! showClustering) {
+        if (!showClustering) {
             // In case of multiple people in the same city,
             // Show them around the location
             var position = friend.location.position,
@@ -131,11 +131,11 @@
             if (friendsInTown > 1) {
                 // Spread friends around in a circle if there
                 // are multiple of them in the same town
-                var circleAngle = friend.number * (Math.PI*2/friendsInTown),
-                    // Radius of the circle relative to the number of friends
+                var circleAngle = friend.number * (Math.PI * 2 / friendsInTown),
+                // Radius of the circle relative to the number of friends
                     distanceCircle = friendsInTown / 5,
                     distanceRandom = distanceCircle * Math.random(),
-                    distanceSpiral = distanceCircle/friendsInTown * friend.number;
+                    distanceSpiral = distanceCircle / friendsInTown * friend.number;
                 position = distanceFromPosition(position, distanceRandom, circleAngle);
             }
 
@@ -146,7 +146,7 @@
                 {
                     icon: friend.picture.data.url,
                     anchor: {x: 25, y: 25},
-                    click: function() {
+                    click: function () {
                         showFriendBubble(friend);
                     }
                 });
@@ -173,9 +173,10 @@
         map.jHERE('bubble',
             friend.location.position,
             {
-                content: '<a href="https://www.facebook.com/' + friend.username + '" target="_blank">'+friend.name+'</a> ' + greeting,
+                content: '<a href="https://www.facebook.com/' + friend.username + '" target="_blank">' + friend.name + '</a> ' + greeting,
                 closable: true,
-                onclose: function() {}
+                onclose: function () {
+                }
             });
     };
 
@@ -232,10 +233,10 @@
             map.jHERE('originalMap', function (jslaMap) {
                 clusterProvider = new nokia.maps.clustering.ClusterProvider(
                     jslaMap, {
-                            eps: 16,
-                            minPts: 1,
-                            dataPoints: []
-                        });
+                        eps: 16,
+                        minPts: 1,
+                        dataPoints: []
+                    });
             });
         }
 
@@ -244,7 +245,7 @@
             var mapNode = mapDiv.get(0);
 
             jslaMap.addObserver("center", function (obj, key, newValue, oldValue) {
-                if (jslaMap.pixelToGeo(0,0).latitude >= 90 && jslaMap.zoomLevel > 1) {
+                if (jslaMap.pixelToGeo(0, 0).latitude >= 90 && jslaMap.zoomLevel > 1) {
                     jslaMap.pan(0, 0, 0, 1);
                 }
                 else if (jslaMap.pixelToGeo(0, mapNode.scrollHeight).latitude <= -90 && jslaMap.zoomLevel > 1) {
@@ -292,7 +293,7 @@
 
     var fbLogin = function (successCallback) {
         // Check if logged in already
-        FB.getLoginStatus(function(response) {
+        FB.getLoginStatus(function (response) {
             if (response.status === 'connected') {
                 // connected
                 console.log('logged in now');
@@ -301,7 +302,7 @@
                 // not_logged_in or not_authorized
                 console.log('user not authorized or not logged in, requesting auth');
 
-                FB.login(function(response) {
+                FB.login(function (response) {
                     console.log('result of login', response);
                     if (response.authResponse) {
                         // connected
@@ -321,7 +322,7 @@
 
         $(document).on('fbInit', function () {
             // If already authorized, show map right away
-            FB.getLoginStatus(function(response) {
+            FB.getLoginStatus(function (response) {
                 if (response.status === 'connected') {
                     loadFriends();
                 }
@@ -371,7 +372,7 @@
         fbLogin(loadFriends);
     });
 
-    $(window).on('load', function() {
+    $(window).on('load', function () {
         loadMap();
     });
 
